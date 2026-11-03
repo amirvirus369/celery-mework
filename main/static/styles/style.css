@@ -1,0 +1,361 @@
+/* ==========================================================================
+   Vazirmatn Font Definitions (All Weights)
+   ========================================================================== */
+
+/* Thin - 100 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Thin.ttf") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ExtraLight - 200 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-ExtraLight.ttf") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Light - 300 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Light.ttf") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Regular - 400 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Regular.ttf") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Medium - 500 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Medium.ttf") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* SemiBold - 600 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-SemiBold.ttf") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Bold - 700 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Bold.ttf") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ExtraBold - 800 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-ExtraBold.ttf") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Black - 900 */
+@font-face {
+    font-family: "Vazirmatn";
+    src: url("../fonts/Vazirmatn-Black.t") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* پشتیبانی از فونت متغیر (Variable Font) در صورت وجود در پوشه fonts */
+@font-face {
+    font-family: "Vazirmatn Variable";
+    src: url("../fonts/Vazirmatn-VariableFont_wght.ttf")
+        format("truetype-variations");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ==========================================================================
+   Global Font Application
+   ========================================================================== */
+
+:root {
+    --main-font:"Vazirmatn";
+}
+
+* {
+    font-family: var(--main-font) !important;
+}
+
+body {
+    font-family: var(--main-font) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Enhanced Global Styles – Karyar Theme Consistency & Polish
+   ========================================================================== */
+
+:root {
+    --gold: #D4AF37;
+    --gold-light: #E8C547;
+    --gold-dark: #A8841C;
+    --navy: #071528;
+    --navy-mid: #0A1830;
+    --navy-card: #122440;
+    --navy-soft: #152A48;
+    --text-primary: #F5F0E6;
+    --text-muted: #B8C5D9;
+    --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.25);
+    --shadow-gold-lg: 0 8px 32px rgba(212, 175, 55, 0.35);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Text selection – dark gold */
+::selection {
+    background-color: #A8841C !important;
+    color: #F5F0E6 !important;
+}
+::-moz-selection {
+    background-color: #A8841C !important;
+    color: #F5F0E6 !important;
+}
+
+/* Smoother global transitions */
+a, button, .btn, [role="button"],
+.card, .rounded-xl, .rounded-2xl {
+    transition: var(--transition-smooth);
+}
+
+/* Better hover for links & interactive */
+a:hover, button:hover {
+    transition: var(--transition-smooth);
+}
+
+/* Gold glow hover utility */
+.hover-gold-glow:hover,
+a.bg-karyar-500:hover,
+button.bg-karyar-500:hover,
+.bg-ky-500:hover {
+    box-shadow: var(--shadow-gold) !important;
+    transform: translateY(-2px);
+}
+
+/* Soft mouse / focus shadow */
+*:focus-visible {
+    outline: 2px solid var(--gold) !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+}
+
+/* Card polish */
+.card, [class*="rounded-2xl"][class*="border"],
+.bg-white, .bg-slate-50, .bg-stone-50 {
+    transition: var(--transition-smooth);
+}
+.card:hover, [class*="rounded-2xl"][class*="border"]:hover {
+    box-shadow: var(--shadow-gold);
+    border-color: rgba(212, 175, 55, 0.5) !important;
+}
+
+/* Page load fade-in */
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+body {
+    animation: pageFadeIn 0.45s ease-out both;
+}
+
+/* Loading overlay */
+#page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #071528;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.loader-spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid rgba(212, 175, 55, 0.2);
+    border-top-color: #D4AF37;
+    border-radius: 50%;
+    animation: spinLoader 0.8s linear infinite;
+}
+@keyframes spinLoader {
+    to { transform: rotate(360deg); }
+}
+
+/* Navbar polish */
+header nav {
+    overflow: visible !important;
+}
+.nav-link {
+    position: relative;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: var(--transition-smooth);
+}
+.nav-link:hover {
+    color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.08);
+}
+.nav-link.active, .nav-link.text-karyar-500 {
+    color: #D4AF37 !important;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 50%;
+    left: 50%;
+    height: 2px;
+    background: #D4AF37;
+    border-radius: 1px;
+    transition: all 0.25s ease;
+    opacity: 0;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+    right: 10%;
+    left: 10%;
+    opacity: 1;
+}
+
+/* Jobs dropdown polish */
+.jobs-dropdown {
+    backdrop-filter: blur(12px);
+    background: rgba(10, 24, 48, 0.95) !important;
+    box-shadow: var(--shadow-gold-lg) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+}
+.jobs-dropdown a {
+    color: #F5F0E6 !important;
+    border-radius: 0.75rem;
+    transition: var(--transition-smooth);
+}
+.jobs-dropdown a:hover {
+    background: rgba(212, 175, 55, 0.15) !important;
+    color: #E8C547 !important;
+    transform: translateX(-2px);
+}
+
+/* Mobile menu items */
+.mobile-nav-link {
+    color: #F5F0E6 !important;
+    border-color: rgba(212, 175, 55, 0.15) !important;
+    transition: var(--transition-smooth);
+}
+.mobile-nav-link:hover {
+    color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.08);
+    padding-right: 0.75rem;
+}
+
+/* Buttons unified */
+.btn-primary,
+a.bg-karyar-500,
+button.bg-karyar-500,
+.bg-ky-500 {
+    background-color: #D4AF37 !important;
+    color: #071528 !important;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+    transition: var(--transition-smooth);
+}
+.btn-primary:hover,
+a.bg-karyar-500:hover,
+button.bg-karyar-500:hover,
+.bg-ky-500:hover {
+    background-color: #E8C547 !important;
+    color: #071528 !important;
+    box-shadow: var(--shadow-gold-lg);
+    transform: translateY(-2px);
+}
+
+/* Inputs consistent */
+input, textarea, select {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+input:focus, textarea:focus, select:focus {
+    border-color: #D4AF37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+    outline: none !important;
+}
+
+/* Scrollbar gold accent */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #071528;
+}
+::-webkit-scrollbar-thumb {
+    background: #A8841C;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D4AF37;
+}
+
+/* Smooth image & card hover lift */
+img, .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-gold);
+}
+
+/* ===== High-contrast readable secondary text (dark theme) ===== */
+.text-slate-400, .text-gray-400, .text-stone-400,
+.text-slate-500, .text-gray-500, .text-stone-500,
+.text-slate-300, .text-gray-300, .text-stone-300 {
+    color: #D0D8E8 !important;
+}
+.text-slate-600, .text-gray-600, .text-stone-600 {
+    color: #E8EEF6 !important;
+}
+input::placeholder, textarea::placeholder,
+.placeholder\:text-slate-400::placeholder,
+.placeholder\:text-gray-400::placeholder {
+    color: #A0B0C8 !important;
+    opacity: 1 !important;
+}
+/* Ensure footer list text is readable */
+footer .text-gray-300, footer .text-slate-300,
+footer ul li a, footer ul li span {
+    color: #C8D4E8 !important;
+}
+footer ul li a:hover {
+    color: #D4AF37 !important;
+}

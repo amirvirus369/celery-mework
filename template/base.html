@@ -1,0 +1,416 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'en' %}ltr{% else %}rtl{% endif %}" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'هوشمند ' %}</title>
+
+    {% load static %}
+    <!-- Global theme CSS (all pages) -->
+    <link rel="stylesheet" href="{% static './styles/style.css' %}">
+    <link rel="stylesheet" href="{% static './styles/app.css' %}">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{% block hed %}
+{% endblock %}
+
+    <!-- Alpine.js -->
+    <script defer src="{% static 'library/apline.min.js' %}"></script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+
+
+    <!-- Critical dark theme (all pages) – unified navy + gold – high contrast readable -->
+    <style>
+      html, body {
+        background-color: #071528 !important;
+        color: #F5F0E6 !important;
+      }
+      .bg-white, .bg-slate-50, .bg-stone-50, .bg-gray-50,
+      .bg-slate-100, .bg-stone-100, .bg-gray-100,
+      .bg-slate-200, .bg-stone-200, .bg-gray-200 {
+        background-color: #0A1830 !important;
+        color: #F5F0E6 !important;
+      }
+      .text-slate-800, .text-stone-800, .text-gray-800,
+      .text-slate-900, .text-stone-900, .text-gray-900,
+      .text-slate-700, .text-stone-700, .text-gray-700,
+      .text-slate-600, .text-stone-600, .text-gray-600 {
+        color: #F5F0E6 !important;
+      }
+      .text-slate-500, .text-stone-500, .text-slate-400, .text-gray-500, .text-gray-400,
+      .text-slate-300, .text-stone-300, .text-gray-300,
+      .text-slate-200, .text-gray-200 {
+        color: #D0D8E8 !important;
+      }
+      .text-gray-300, .text-slate-300 {
+        color: #C8D4E8 !important;
+      }
+      .border-slate-100, .border-slate-50, .border-stone-100,
+      .border-slate-200, .border-stone-200, .border-gray-200, .border-gray-100 {
+        border-color: rgba(212, 175, 55, 0.35) !important;
+      }
+      .bg-karyar-500, .bg-ky-500 {
+        background-color: #D4AF37 !important;
+        color: #071528 !important;
+      }
+      .hover\:bg-karyar-500:hover, .hover\:bg-ky-500:hover {
+        background-color: #E8C547 !important;
+        color: #071528 !important;
+      }
+      .text-karyar-500, .text-ky-500 { color: #D4AF37 !important; }
+      .text-karyar-900, .text-ky-900 { color: #E8C547 !important; }
+      .hover\:text-karyar-500:hover, .hover\:text-ky-500:hover { color: #D4AF37 !important; }
+      .hover\:text-karyar-900:hover, .hover\:text-ky-900:hover { color: #E8C547 !important; }
+      input, textarea, select {
+        background-color: #122440 !important;
+        color: #F5F0E6 !important;
+        border-color: #D4AF37 !important;
+      }
+      input::placeholder, textarea::placeholder {
+        color: #A0B0C8 !important;
+        opacity: 1 !important;
+      }
+      header nav, header { overflow: visible !important; }
+      
+      /* Appearance only – Alpine x-show controls display */
+      .jobs-dropdown {
+        z-index: 99999 !important;
+        background: rgba(10, 24, 48, 0.98) !important;
+        border: 1px solid rgba(212, 175, 55, 0.45) !important;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55) !important;
+      }
+      [x-cloak] { display: none !important; }
+    </style>
+
+</head>
+
+<body class="bg-karyar-900 min-h-screen text-karyar-50 antialiased">
+
+    <!-- Page Loader -->
+    <div id="page-loader">
+        <div class="loader-spinner"></div>
+    </div>
+    <script>
+        window.addEventListener('load', function () {
+            var loader = document.getElementById('page-loader');
+            if (loader) loader.classList.add('loaded');
+        });
+        setTimeout(function () {
+            var loader = document.getElementById('page-loader');
+            if (loader) loader.classList.add('loaded');
+        }, 2500);
+    </script>
+
+    <!-- Header & Navbar Navigation -->
+    <header x-data="{ mobileMenuOpen: false, jobsDropdownOpen: false }"
+        class="text-nowrap sticky top-0 z-50 bg-karyar-800/95 backdrop-blur-md border-b border-karyar-500/30 shadow-lg shadow-black/20">
+
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 h-20 flex items-center justify-between relative">
+
+            <!-- Logo Section -->
+            <a href="" class="flex items-center gap-3 group">
+                <div
+                    class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-karyar-900 to-karyar-500 flex items-center justify-center text-white font-bold text-2xl shadow-md shadow-karyar-500/20 group-hover:scale-105 transition-transform">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold text-karyar-900 tracking-tight leading-none">{% translate 'کار' %}<span
+                            class="text-karyar-500">{% translate 'من' %}</span></span>
+                    <span class="text-[10px] text-slate-400 font-medium mt-1">{% translate 'سامانه هوشمند کاریابی' %}</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <ul class="hidden lg:flex items-center gap-3 font-semibold text-sm">
+                <li>
+                    <a href="" class="nav-link text-karyar-500">{% translate 'صفحه اصلی' %}</a>
+                </li>
+
+                <!-- Jobs Dropdown -->
+                <li class="relative" @click.outside="jobsDropdownOpen = false">
+                    <button type="button" @click.stop="jobsDropdownOpen = !jobsDropdownOpen"
+                        class="nav-link flex items-center gap-1.5 focus:outline-none cursor-pointer"
+                        :class="jobsDropdownOpen ? 'text-karyar-500' : ''">
+                        <span>{% translate 'شغل‌ها' %}</span>
+                        <i class="bi bi-chevron-down text-xs transition-transform duration-300"
+                            :class="jobsDropdownOpen ? 'rotate-180 text-karyar-500' : ''"></i>
+                    </button>
+
+                    <div x-show="jobsDropdownOpen"
+                        x-cloak
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-100"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        class="jobs-dropdown absolute top-full mt-2 w-[min(600px,90vw)] rounded-2xl p-5 grid grid-cols-2 sm:grid-cols-3 gap-2 z-[99999] {% if LANGUAGE_CODE == 'en' %}left-0{% else %}right-0{% endif %}">
+
+                       {% for i in category_cart %}
+                        <a href="{% url 'work:category_job' i.name %}"
+                            class="p-2.5 rounded-xl flex items-center gap-2 text-sm hover:bg-white/10 transition-colors">
+                            <i class="bi bi-briefcase-fill text-karyar-500 text-xs shrink-0"></i>
+                            <span>{{ i.icon|default:i.name }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </li>
+
+                <li>
+                    <a href="" class="nav-link">{% translate 'ثبت آگهی شغلی' %}</a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">{% translate 'مقالات' %}</a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">{% translate 'درباره ما' %}</a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">{% translate 'تماس با ما' %}</a>
+                </li>
+                <li>
+                    <a href="" class="nav-link">{% translate 'ثبت تجربه از کارمن' %}</a>
+                </li>
+                <li>
+                    <a href="" class="nav-link flex items-center gap-1.5" title="بازی">
+                        <i class="bi bi-controller text-base"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Auth Buttons (Desktop) -->
+            <div class="hidden lg:flex items-center gap-2">
+                <!-- change lang -->
+                <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+                    <div class="relative inline-block">
+                        <select
+                            class="bg-slate-200 hover:bg-karyar-50 text-slate-700 hover:text-karyar-900 text-xs font-bold pl-7 pr-3 py-2 rounded-xl border border-slate-200 transition-all focus:outline-none cursor-pointer appearance-none" onchange="this.form.submit()" name="language">
+                            <option value="fa" {% if LANGUAGE_CODE == 'fa' %}selected{% endif %}>FA</option>
+                            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
+                            <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>AR</option>
+                        </select>
+
+                        <!-- آیکون فلش -->
+                        <div
+                            class="pointer-events-none absolute inset-y-0 left-2 flex items-center text-slate-500">
+                            <i class="bi bi-chevron-down text-[10px]"></i>
+                        </div>
+                    </div>
+                </form>
+                {% if request.user.is_authenticated %}
+                <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{{request.user.full_name}}</a>
+                    <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'نمایش رزومه' %}</a>
+                     <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">  {% translate  'رزومه برای ارسال' %}{{request.user.pro}}</a>
+                     <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'خارج شدن' %}</a>
+                    {% else %}
+                <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'ثبت نام' %}</a>
+                     <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'ورود' %}</a>
+                    {% endif %}
+                <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'داشبورد کارفرما' %}</a>
+                <a href=""
+                    class="bg-karyar-500 hover:bg-karyar-900 text-karyar-950 font-bold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-karyar-500/20 hover:shadow-lg transition-all transform hover:-translate-y-0.5">{% translate 'داشبورد فریلنسر' %}</a>
+            </div>
+
+            <!-- Hamburger Button (Mobile) -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen"
+                class="lg:hidden text-karyar-500  text-2xl p-2 focus:outline-none transition-colors rounded-lg hover:bg-karyar-500/10">
+                <i :class="mobileMenuOpen ? 'bi bi-x-lg' : 'bi bi-list'"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Drawer Menu -->
+        <div x-show="mobileMenuOpen" x-cloak
+            x-transition:enter="transition ease-out duration-250"
+            x-transition:enter-start="opacity-0 -translate-y-4"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-4"
+            class="lg:hidden bg-karyar-800/98 backdrop-blur-md border-b border-karyar-500/30 px-6 py-6 space-y-1 max-h-[80vh] overflow-y-auto">
+
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b">{% translate 'صفحه اصلی' %}</a>
+
+            <!-- Mobile Jobs Accordion -->
+            <div x-data="{ jobsSubOpen: false }" class="border-b border-karyar-500/20 py-2">
+                <button type="button" @click.stop="jobsSubOpen = !jobsSubOpen"
+                    class="w-full flex items-center justify-between font-bold text-karyar-500 transition-colors">
+                    <span>{% translate 'شغل‌ها' %}</span>
+                    <i class="bi bi-chevron-down text-xs transition-transform duration-300"
+                        :class="jobsSubOpen ? 'rotate-180 text-karyar-500' : ''"></i>
+                </button>
+                <div x-show="jobsSubOpen" x-cloak
+                    class="mt-3 grid grid-cols-1 gap-1 pr-2 text-sm">
+                    {% for i in category_cart %}
+                    <a href="{% url 'work:category_job' i.name %}" class="mobile-nav-link py-1.5 rounded-lg px-2">{{ i.icon|default:i.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b text-karyar-500">{% translate '🎮 بازی و سرگرمی' %}</a>
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b">{% translate 'ثبت آگهی شغلی' %}</a>
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b">{% translate 'درباره ما' %}</a>
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b">{% translate 'تماس با ما' %}</a>
+            <a href="" class="mobile-nav-link block font-bold py-2.5 border-b">{% translate 'ثبت تجربه از کارمن' %}</a>
+
+            <div class="pt-4 flex flex-col gap-3">
+                <!-- change lang -->
+                <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <div class="relative w-full">
+                        <select
+                            class="w-full bg-slate-100 hover:bg-karyar-50 text-slate-700 hover:text-karyar-900 text-xs font-bold px-4 py-3 rounded-xl border border-slate-200 transition-all focus:outline-none cursor-pointer appearance-none text-center"
+                            onchange="this.form.submit()" name="language">
+                            <option value="fa" {% if LANGUAGE_CODE == 'fa' %}selected{% endif %}>{% translate 'فارسی (FA)' %}</option>
+                            <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English (EN)</option>
+                            <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>{% translate 'العربية (AR)' %}</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-slate-500">
+                            <i class="bi bi-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </form>
+                {% if request.user.is_authenticated %}
+                  <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'خارج شدن' %}</a>
+                      <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{{request.user.full_name}}</a>
+                      <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">  {% translate 'رزومه برای ارسال' %} {{request.user.pro}}</a>
+                      <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'نمایش رزومه ' %}</a>
+                {% else %}
+                  <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'ثبت‌نام' %}</a>
+                      <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'ورود' %}</a>
+                {% endif %}
+              
+                <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'داشبورد کارفرما' %}</a>
+                <a href=""
+                    class="text-center bg-karyar-500 text-karyar-950 font-bold py-2.5 rounded-xl shadow-md">{% translate 'داشبورد فریلنسر' %}</a>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- FOOTER START -->
+    <footer class="bg-ky-900 text-white relative overflow-hidden pt-16 pb-8 border-t-4 border-ky-500"
+        role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+            <!-- بخش بالایی: خبرنامه + معرفی -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-ky-200/20">
+
+                <!-- اطلاعات برند -->
+                <div class="lg:col-span-5 space-y-4">
+                    <a href="" class="flex items-center gap-3 group">
+                        <div
+                            class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-karyar-900 to-karyar-500 flex items-center justify-center text-white font-bold text-2xl shadow-md shadow-karyar-500/20 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-briefcase-fill"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-2xl font-bold text-white tracking-tight leading-none">{% translate 'کار' %}<span
+                                    class="text-karyar-100">{% translate 'من' %}</span></span>
+                            <span class="text-[10px] text-ky-200 font-medium mt-1">{% translate 'سامانه هوشمند کاریابی' %}</span>
+                        </div>
+                    </a>
+                    <p class="text-ky-200 text-sm leading-relaxed max-w-sm">{% translate 'کاریار پل ارتباطی هوشمند بین کارجویان متخصص و برترین سازمان‌ها است. ساخت آینده شغلی شما از اینجا شروع می‌شود.' %}</p>
+                </div>
+
+               
+            </div>
+
+            <!-- بخش میان: لینک‌ها -->
+            <nav aria-label="لینک‌های فوتر" class="grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
+
+                <div>
+                    <h4 class="text-ky-200 font-bold text-sm mb-4 border-r-2 border-ky-500 pr-2">{% translate 'برای کارجویان' %}</h4>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><a href="#header" class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'جستجوی فرصت‌های شغلی' %}</a></li>
+                        <li><a href="14050516_21q.pdf" target="_blank" download="14050516_21q.pdf"
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'استعلام حقوق بازار کار' %}</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-ky-200 font-bold text-sm mb-4 border-r-2 border-ky-500 pr-2">{% translate 'برای کارفرمایان' %}</h4>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'ثبت آگهی استخدام' %}</a>
+                        </li>
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'تعرفه‌ها و بسته‌ها' %}</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-ky-200 font-bold text-sm mb-4 border-r-2 border-ky-500 pr-2">{% translate 'کاریار' %}</h4>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'درباره ما' %}</a></li>
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'مجله آموزشی و مقالات' %}</a></li>
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'تماس با پشتیبانی' %}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-ky-200 font-bold text-sm mb-4 border-r-2 border-ky-500 pr-2">{% translate 'قوانین و امنیت' %}</h4>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><a href=""
+                                class="hover:text-ky-200 transition-colors duration-200 block py-1">{% translate 'قوانین' %}</a></li>
+                    </ul>
+                </div>
+
+            </nav>
+
+            <!-- بخش پایینی: کپی‌رایت + شبکه اجتماعی -->
+            <div
+                class="pt-8 border-t border-ky-200/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-ky-200">
+                <p>{% translate '© ۱۴۰۵ تمامی حقوق برای سامانه کاریابی کاریار محفوظ است.' %}</p>
+
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <a href="https://linkedin.com" aria-label="لینکدین"
+                        class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-ky-500 hover:text-white transition-all">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="https://telegram.org" aria-label="تلگرام"
+                        class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-ky-500 hover:text-white transition-all">
+                        <i class="bi bi-telegram"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+
+    {% block footer %}
+    {% endblock %}
+</body>
+</html>

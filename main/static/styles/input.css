@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/* Scan all templates and JS for class usage */
+@source "../../templates/**/*.html";
+@source "../../../template/**/*.html";
+@source "../js/**/*.js";
+@source "../show-resume.js";
+
+@theme {
+  /* ===== Navy + Gold – high contrast (خوانا) ===== */
+  /* Surfaces (backgrounds) – navy scale */
+  --color-karyar-50: #152A48;
+  --color-karyar-100: #122440;
+  --color-karyar-200: #1C3558;
+  --color-karyar-300: #E8D9A0;
+  --color-karyar-400: #E8C547;
+  /* Gold accent */
+  --color-karyar-500: #D4AF37;
+  --color-karyar-600: #C9A227;
+  --color-karyar-700: #A8841C;
+  --color-karyar-800: #0A1830;
+  --color-karyar-900: #071528;
+  --color-karyar-950: #040E1A;
+
+  /* ky alias */
+  --color-ky-50: #152A48;
+  --color-ky-100: #122440;
+  --color-ky-200: #B8C5D9;
+  --color-ky-300: #E8D9A0;
+  --color-ky-400: #E8C547;
+  --color-ky-500: #D4AF37;
+  --color-ky-600: #C9A227;
+  --color-ky-700: #A8841C;
+  --color-ky-800: #0A1830;
+  --color-ky-900: #071528;
+  --color-ky-950: #040E1A;
+
+  --color-kyLightest: #1C3558;
+  --color-kyLight: #E8D9A0;
+  --color-kyMain: #D4AF37;
+  --color-kyDark: #071528;
+
+  --font-sans: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+}

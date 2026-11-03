@@ -1,0 +1,49 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>انتخاب شما</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #f4f6fb, #e9eef8); color: #20283a;
+    }
+    .panel {
+      width: min(100%, 460px); padding: 38px 30px; text-align: center;
+      background: rgba(255,255,255,.88); border: 1px solid #fff;
+      border-radius: 24px; box-shadow: 0 18px 55px rgba(39,55,88,.10);
+    }
+    .eyebrow { color: #77839a; font-size: 13px; margin-bottom: 12px; }
+    h1 { margin: 0 0 10px; font-size: 27px; }
+    p { margin: 0 0 28px; color: #77839a; font-size: 14px; line-height: 1.9; }
+    .options { display: grid; gap: 13px; }
+    button {
+      width: 100%; padding: 17px 20px; border: 1px solid #e3e8f1;
+      border-radius: 14px; background: #ab0202; color: #386fde;
+      font: inherit; font-size: 15px; cursor: pointer;
+      transition: .2s ease;
+    }
+    button:hover { transform: translateY(-2px); border-color: #8197d8; box-shadow: 0 8px 22px rgba(70,91,150,.10); }
+    button:focus-visible { outline: 3px solid #a9b9ee; outline-offset: 3px; }
+    #result { min-height: 26px; margin-top: 22px; color: #536db4; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <div class="eyebrow">یک انتخاب ساده</div>
+    <h1>{{text}}</h1>
+    <p>برای ادامه، یکی از گزینه‌های زیر رو انتخاب کن.</p>
+    <div class="options">
+      <a href="{% if page == 1 %}{% url 'work:job' %}{% elif page == 2 %}{% url 'work:cel_job' %}{% elif  page == 3 %}{% url 'work:cel_res' %}{% endif %}" type="button" >{{choise1}}</a>
+      <br>
+      <a href="{% if page == 1 %}{% url 'work:res' %}{% elif page == 2 %}{% url 'work:no_job' %}{% elif  page == 3 %}{% url 'work:no_res' %}{% endif %}" type="button">{{choise2}}</a>
+    </div>
+    <div id="result" aria-live="polite"></div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load i18n %}
+{% block hed %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate 'رزومه‌ساز هوشمند | کار من - کاریابی و استخدام ' %}</title>
+
+    <!-- SEO & Crawlability Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="description"
+        content="{% translate 'ا رزومه‌ساز آنلاین کار من، رزومه حرفه‌ای و استاندارد خود را در چند دقیقه بسازید و فرصت‌های شغلی برتر را جذب کنید.' %}">
+    <meta name="keywords" content="{% translate 'کاریابی, کار من, رزومه ساز, استخدام, ساخت رزومه, برنامه نویسی ' %}">
+    <link rel="canonical" href="https://karyar.ir/resume-builder">
+
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="رزومه‌ساز آنلاین کار من">
+    <meta property="og:description" content="رزومه حرفه‌ای خود را بسازید و به هزاران کارفرما متصل شوید.">
+    <meta property="og:type" content="website">
+
+    <!-- FONT CSS -->
+    <link rel="stylesheet" href="{% static './styles/style.css' %}">
+    <!-- Tailwind CSS (v4 CLI) -->
+    <link rel="stylesheet" href="{% static './styles/app.css' %}">
+
+    <!-- AOS Animation Library CDN -->
+    <link href="{% static './library/aos.css' %}" rel="stylesheet">
+    <script src="{% static './library/aos.js' %}"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Alpine.js CDN -->
+    <script defer src="{% static './library/apline.min.js' %}"></script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+
+        .custom-glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content Section -->
+    <main class="py-10 lg:py-14">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Page Title Header -->
+            <header class="text-center mb-10" data-aos="fade-down" data-aos-duration="800">
+                <span
+                    class="inline-block px-3 py-1 text-xs font-semibold bg-brand-50 text-brand-900 rounded-full mb-3 border border-brand-200">
+                   {% translate 'گام به گام تا شغل رویایی ' %}
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-brand-900 leading-tight">
+                    رزومه حرفه‌ای خود را بپیرایید
+                </h1>
+                <p class="mt-2 text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+                   {% translate ' اطلاعات زیر را با دقت وارد کنید تا رزومه شما به بهترین شکل برای کارفرمایان نمایش داده شود.' %}
+                </p>
+            </header>
+
+            {% if success_redirect %}
+            <div x-data="{ count: 3 }" 
+                 x-init="let timer = setInterval(() => { count--; if(count <= 0) { clearInterval(timer); window.location.href='/'; } }, 1000)"
+                 class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="bi bi-check-circle-fill text-2xl text-emerald-500"></i>
+                    <div>
+                        <h4 class="font-bold text-sm"> {% translate 'رزومه شما با موفقیت  ثبت و ذخیره شد!' %}</h4>
+                        <p class="text-xs mt-0.5">شما تا <span class="font-bold" x-text="count"></span> {% translate 'ثانیه دیگر منتقل می‌شوید.' %}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+{% if form.errors or formset.errors %}
+<div class="mb-6 p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs">
+    <p class="font-bold mb-1">{% translate 'لطفاً خطاهای زیر را برطرف کنید:' %}</p>
+    {{ form.errors }}
+    {{ formset.errors }}
+</div>
+{% endif %}
+            <!-- Resume Form -->
+            <form class="space-y-8" method="POST" enctype="multipart/form-data"
+                  x-data="{ loading: false }"
+                  @submit="loading = true">
+                {% csrf_token %}
+
+                <!-- Section 1: Profile Image & Personal Info -->
+                <section
+                    class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 relative overflow-hidden"
+                    data-aos="fade-up" data-aos-duration="800">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-brand-500"></div>
+                    <h2 class="text-xl font-bold text-brand-900 mb-6 flex items-center gap-2">
+                        <i class="bi bi-person-fill text-brand-500 text-xl"></i>
+                       {% translate ' اطلاعات فردی و عکس' %}
+                    </h2>
+
+                    <div class="flex flex-col items-center justify-center">
+                        <!-- Profile Image Upload Box -->
+                        <div class="relative group cursor-pointer">
+                            <label for="{{ form.img.id_for_label }}" class="cursor-pointer block">
+                                <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md ring-4 ring-brand-100 group-hover:ring-brand-500 transition-all duration-300 relative bg-slate-100 flex items-center justify-center">
+                                    <img id="avatarPreview"
+                                        src="{% if form.instance.img %}{{ form.instance.img.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+                                        alt="{% translate 'پیش‌نمایش عکس پروفایل' %}"
+                                        class="w-full h-full object-cover">
+                                    
+                                    <!-- Overlay Effect on Hover -->
+                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white text-xs gap-1 font-medium">
+                                        <i class="bi bi-camera-fill text-xl"></i>
+                                        <span>{% translate 'تغییر عکس' %}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Small Camera Badge Button -->
+                                <div class="absolute bottom-1 right-1 bg-brand-500 hover:bg-brand-900 text-white p-2.5 rounded-full shadow-lg transition-transform transform group-hover:scale-110 flex items-center justify-center">
+                                    <i class="bi bi-pencil-fill text-xs"></i>
+                                </div>
+                            </label>
+                            
+                            <!-- Real Hidden Input Field -->
+                            <div class="hidden">
+                                {{ form.img }}
+                            </div>
+                        </div>
+
+                        <span class="text-xs text-slate-500 mt-3 text-center">
+                           {% translate ' تصویر خود را بارگذاری کنید (فرمت‌های مجاز: JPG, PNG - حداکثر ۲ مگابایت)' %}
+                        </span>
+                    </div>
+                </section>
+
+                <!-- Section 2: Contact Channels & Links -->
+                <section
+                    class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 relative overflow-hidden"
+                    data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-brand-500"></div>
+                    <h2 class="text-xl font-bold text-brand-900 mb-6 flex items-center gap-2">
+                        <i class="bi bi-link-45deg text-brand-500 text-xl"></i>
+                       {% translate ' راه‌های ارتباطی و شبکه‌های حرفه‌ای' %}
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="{{ form.link_din.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'لینک پروفایل لینکدین' %}</label>
+                            {{ form.link_din }}
+                        </div>
+                        <div>
+                            <label for="{{ form.link_git.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'لینک پروفایل گیت‌هاب' %}</label>
+                            {{ form.link_git }}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Technical Skills -->
+                <section
+                    class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 relative overflow-hidden"
+                    data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-brand-500"></div>
+                    <h2 class="text-xl font-bold text-brand-900 mb-6 flex items-center gap-2">
+                        <i class="bi bi-code-slash text-brand-500 text-xl"></i>
+                       {% translate ' مهارت‌ها و تخصص‌ها' %}
+                    </h2>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="{{ form.skill1.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'کتابخانه‌ها و فریم‌ورک‌ها' %}</label>
+                            {{ form.skill1 }}
+                        </div>
+                        <div>
+                            <label for="{{ form.skill2.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'زبان‌های برنامه‌نویسی' %}</label>
+                            {{ form.skill2 }}
+                        </div>
+                        <div>
+                            <label for="{{ form.skill3.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'مهارت‌های تکمیلی و ابزارها' %}</label>
+                            {{ form.skill3 }}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Summary & Dynamic Work Experience -->
+                <section
+                    class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 relative overflow-hidden"
+                    data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-brand-500"></div>
+                    <h2 class="text-xl font-bold text-brand-900 mb-6 flex items-center gap-2">
+                        <i class="bi bi-briefcase-fill text-brand-500 text-xl"></i>
+                       {% translate ' درباره من و سوابق شغلی' %}
+                    </h2>
+
+                    <div class="space-y-6">
+                        <!-- About Me Summary -->
+                        <div>
+                            <label for="{{ form.history.id_for_label }}" class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'توضیح کوتاه درباره خود (خلاصه رزومه)' %}</label>
+                            {{ form.history }}
+                        </div>
+                        
+
+                        <!-- Dynamic Work Experience Formset -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-2">{% translate 'سوابق کاری' %}</label>
+                            
+                            <!-- Django Formset Management Form -->
+                            {{ formset.management_form }}
+
+                            <div class="space-y-4">
+                                {% for exp_form in formset %}
+                                    <div class="p-4 rounded-xl bg-brand-50/50 border border-brand-200/60 relative space-y-3 experience-form-item">
+                                        {{ exp_form.id }}
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label class="block text-xs text-slate-600 mb-1">{% translate 'عنوان شغلی' %}</label>
+                                                {{ exp_form.title }}
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs text-slate-600 mb-1">{% translate 'نام شرکت' %}</label>
+                                                {{ exp_form.company }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-slate-600 mb-1">{% translate 'توضیحات' %}</label>
+                                            {{ exp_form.discription }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Submit Button -->
+                <div class="pt-4" data-aos="zoom-in" data-aos-duration="600">
+                    <button type="submit"
+                        :disabled="loading"
+                        :class="{ 'opacity-75 cursor-not-allowed': loading }"
+                        class="w-full py-4 px-8 bg-brand-900 hover:bg-brand-500 text-white font-bold text-base rounded-xl shadow-lg shadow-brand-900/20 hover:shadow-brand-500/30 transition-all duration-300 flex items-center justify-center gap-2">
+                        {% if request.user.is_authenticated %}
+                        <!-- حالت عادی دکمه -->
+                        <span x-show="!loading" class="flex items-center gap-2">
+                            <span>{% translate 'ذخیره و ثبت رزومه' %}</span>
+                            <i class="bi bi-arrow-left text-lg"></i>
+                        </span>
+                        {% else %} 
+                        <span x-show="!loading" class="flex items-center gap-2">
+                            <a href="{% url 'work:register' %}"> {% translate 'لطفا ثبت نام کنید ' %} </a>
+                            <i class="bi bi-arrow-left text-lg"></i>
+                        </span>
+                        {% endif%}
+
+                        <!-- حالت لودینگ و انتظار -->
+                        <span x-show="loading" class="flex items-center gap-2" style="display: none;">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>{% translate 'لطفاً منتظر باشید...' %}</span>
+                        </span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+{% endblock %}
+
+{% block footer %}
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize AOS Animation
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 800,
+                easing: 'ease-in-out'
+            });
+
+            // Bind Live Preview to Image Input
+            const imgInput = document.getElementById('{{ form.img.id_for_label }}');
+            if (imgInput) {
+                imgInput.addEventListener('change', function (event) {
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const output = document.getElementById('avatarPreview');
+                        output.src = reader.result;
+                    };
+                    if (event.target.files && event.target.files[0]) {
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,10 @@
+Django
+celery
+redis
+psycopg2-binary
+django-parler
+deep_translator
+packaging
+Pillow
+
+

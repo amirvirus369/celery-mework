@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block hed %}
+    <title>کار من - ثبت آگهی شغلی جدید</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% translate 'ثبت آگهی استخدام و جذب نیروهای متخصص حوزه فناوری و نرم‌افزار در سامانه کار من' %}">
+    <meta name="robots" content="index, follow">
+
+    <!-- FONT CSS -->
+    <link rel="stylesheet" href="{% static './styles/style.css' %}">
+    <!-- Tailwind CSS (v4 CLI) -->
+    <link rel="stylesheet" href="{% static './styles/app.css' %}">
+
+    <!--  Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- AOS Animation Library -->
+    <link href="{% static './library/aos.css' %}" rel="stylesheet">
+    <script src="{% static './library/aos.js' %}"></script>
+
+    <!-- Alpine.js CDN -->
+    <script defer src="{% static './library/apline.min.js' %}"></script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+
+        html {
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+    </style>
+    {% endblock %}
+
+
+{% block content %}
+
+    <main class="max-w-4xl mx-auto">
+        <!-- Title & Header Banner -->
+        <header class="text-center mb-10" data-aos="fade-down" data-aos-duration="800">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-karyar-50 border border-karyar-100 text-karyar-900 text-xs sm:text-sm font-bold mb-4 shadow-sm">
+                <i class="bi bi-briefcase-fill text-karyar-500"></i>
+                <span>{% translate 'فرصت شغلی جدید خلق کنید' %}</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-karyar-900 tracking-tight">
+               {% translate ' ثبت آگهی استخدام در ' %}<span class="text-karyar-500">{% translate 'کار من' %}</span>
+            </h1>
+            <p class="text-slate-500 text-sm sm:text-base mt-3 max-w-xl mx-auto font-light leading-relaxed">
+               {% translate ' اطلاعات فرصت شغلی خود را وارد کنید تا هوشمندانه در دسترس هزاران متخصص و برنامه‌نویس جویای کار قرار گیرد.' %}
+            </p>
+        </header>
+        {% if success_redirect %}
+<div x-data="{ count: 3 }" 
+     x-init="let timer = setInterval(() => { count--; if(count <= 0) { clearInterval(timer); window.location.href='/'; } }, 1000)"
+     class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <i class="bi bi-check-circle-fill text-2xl text-emerald-500"></i>
+        <div>
+            <h4 class="font-bold text-sm">{% translate 'اگهی شما ثبت شد با تایید پشتیبانی در دسترس عموم قرار خواهد کرد' %}</h4>
+            <p class="text-xs mt-0.5">{% translate 'شما تا ' %}</p><span class="font-bold" x-text="count"></span> {% translate 'ثانیه دیگر منتقل می‌شوید.' %}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+        <!-- Form Card Container -->
+        <form method="POST"
+            x-data="{ loading: false }"
+            @submit="loading = true"
+            class="bg-white rounded-3xl shadow-xl border border-karyar-50 p-6 sm:p-10 space-y-8" data-aos="fade-up"
+            data-aos-duration="1000">
+            {% csrf_token %}
+
+            <!-- Section 1: General Job Info -->
+            <section class="space-y-6">
+                <div class="border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <span class="w-2.5 h-7 bg-karyar-500 rounded-full inline-block"></span>
+                    <h2 class="text-lg font-bold text-karyar-900">{% translate 'مشخصات اصلی آگهی' %}</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Category Select Box (Filled from Header Menu) -->
+                    <div class="space-y-2">
+                        <label for="job_category" class="block text-xs font-bold text-slate-700"> {% translate 'حوزه شغلی' %} <span
+                                class="text-red-500">*</span></label>
+                        <div class="relative">
+                           
+                               {{form.career}}
+                        
+                            <i
+                                class="bi bi-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="job_category" class="block text-xs font-bold text-slate-700"> {% translate 'نوع همکاری' %} <span
+                                class="text-red-500">*</span></label>
+                        <div class="relative">
+                           
+                               {{form.status_work}}
+                        
+                            <i
+                                class="bi bi-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                        </div>
+                    </div>
+
+                     <div class="space-y-2">
+                        <label for="job_category" class="block text-xs font-bold text-slate-700"> {% translate 'زمان کاری' %} <span
+                                class="text-red-500">*</span></label>
+                        <div class="relative">
+                           
+                               {{form.cooperate_work}}
+                        
+                            <i
+                                class="bi bi-chevron-down absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                        </div>
+                    </div>
+
+                    <!-- Job Title -->
+                    <div class="space-y-2">
+                        <label for="job_title" class="block text-xs font-bold text-slate-700"> {% translate 'عنوان اگهی' %} <span
+                                class="text-red-500">*</span></label>
+                        {{form.title}}
+                    </div>
+
+                    <!-- Company Name -->
+                    <div class="space-y-2">
+                        <label for="company_name" class="block text-xs font-bold text-slate-700"> {% translate 'نام شرکت' %} <span
+                                class="text-red-500">*</span></label>
+                       {{form.name_company}}
+                    </div>
+
+                    <!-- Location -->
+                    <div class="space-y-2">
+                        <label for="location" class="block text-xs font-bold text-slate-700"> {% translate 'موقعیت مکانی' %} <span
+                                class="text-red-500">*</span></label>
+                        {{form.location}}
+                    </div>
+                </div>
+
+                <!-- Salary Range -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-700"> {% translate 'بازه حقوق پیشنهادی (میلیون تومان) ' %}<span
+                            class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="relative">
+                            {{form.price_min}}
+                            <span
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-light">{% translate 'تومان' %}</span>
+                        </div>
+                        <div class="relative">
+                           {{form.price_max}}
+                            <span
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-light">{% translate 'تومان' %}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Description TextArea -->
+                <div class="space-y-2">
+                    <label for="job_description" class="block text-xs font-bold text-slate-700">{% translate 'وتوضیحات کلی شغل و
+                        مسئولیت‌ها ' %}<span class="text-red-500">*</span></label>
+                   {{form.discription}}
+                </div>
+            </section>
+
+            <!-- Section 2: Technical Skills & Levels -->
+            <section class="space-y-6 pt-4 border-t border-slate-100">
+                <div class="border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <span class="w-2.5 h-7 bg-karyar-500 rounded-full inline-block"></span>
+                    <h2 class="text-lg font-bold text-karyar-900">{% translate 'مهارت‌های تخصصی مورد نیاز' %}</h2>
+                </div>
+
+                <!-- 3 Medium TextAreas for Frameworks, Languages, and Complementary Skills with Level Selection -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                    <!-- TextArea 1: Frameworks & Libraries -->
+                    <div class="bg-karyar-50/40 p-4 rounded-2xl border border-karyar-100 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label for="skill_frameworks"
+                                class="text-xs font-bold text-karyar-900 flex items-center gap-1.5">
+                                <i class="bi bi-box-seam text-karyar-500"></i>
+                                <span>{% translate 'فریم‌ورک‌ها و کتابخانه‌ها' %}</span>
+                            </label>
+                        </div>
+                       {{form.specialized_Skill1}}
+
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-bold text-slate-600 block">{% translate 'سطح مورد نیاز:' %}</span>
+                           
+                               {{form.level1}}
+                            
+                        </div>
+                    </div>
+
+                    <!-- TextArea 2: Programming Languages -->
+                    <div class="bg-karyar-50/40 p-4 rounded-2xl border border-karyar-100 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label for="skill_languages"
+                                class="text-xs font-bold text-karyar-900 flex items-center gap-1.5">
+                                <i class="bi bi-code-slash text-karyar-500"></i>
+                                <span>{% translate '>زبان‌های برنامه‌نویسی' %}</span>
+                            </label>
+                        </div>
+                       {{form.specialized_Skill2}}
+
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-bold text-slate-600 block">{% translate 'سطح مورد نیاز:' %}</span>
+                            
+                               {{form.level2}}
+                            
+                        </div>
+                    </div>
+
+                    <!-- TextArea 3: Complementary Skills -->
+                    <div class="bg-karyar-50/40 p-4 rounded-2xl border border-karyar-100 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label for="skill_complementary"
+                                class="text-xs font-bold text-karyar-900 flex items-center gap-1.5">
+                                <i class="bi bi-gear-wide-connected text-karyar-500"></i>
+                                <span>{% translate 'مهارت‌های تکمیلی' %}</span>
+                            </label>
+                        </div>
+                       {{form.specialized_Skill3}}
+
+                        <div class="space-y-1">
+                            <span class="text-[11px] font-bold text-slate-600 block">{% translate 'سطح مورد نیاز:' %}</span>
+                            
+                               {{form.level3}}
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Section 3: Bonus Skills (5 Inputs) -->
+            <section class="space-y-4 pt-4 border-t border-slate-100">
+                <div class="border-b border-slate-100 pb-3 flex items-center gap-2">
+                    <span class="w-2.5 h-7 bg-karyar-500 rounded-full inline-block"></span>
+                    <div>
+                        <h2 class="text-lg font-bold text-karyar-900">{% translate 'مهارت‌های امتیازی (مزیت محسوب می‌شود)' %}</h2>
+                        <p class="text-xs text-slate-400 font-light mt-0.5">{% translate 'ثبت حداکثر ۵ مهارت اختیاری که شانس پذیرش
+                            رزومه را افزایش می‌دهد.' %}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="relative">
+                        {{form.skill_score1}}
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] bg-karyar-100 text-karyar-900 px-1.5 py-0.5 rounded-md font-bold">{% translate 'امتیاز' %}</span>
+                    </div>
+
+                    <div class="relative">
+                        {{form.skill_score2}}
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] bg-karyar-100 text-karyar-900 px-1.5 py-0.5 rounded-md font-bold">{% translate 'امتیاز' %}</span>
+                    </div>
+
+                    <div class="relative">
+                       {{form.skill_score3}}
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] bg-karyar-100 text-karyar-900 px-1.5 py-0.5 rounded-md font-bold">{% translate 'امتیاز' %}</span>
+                    </div>
+
+                    <div class="relative">
+                       {{form.skill_score4}}
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] bg-karyar-100 text-karyar-900 px-1.5 py-0.5 rounded-md font-bold">{% translate 'امتیاز' %}</span>
+                    </div>
+
+                    <div class="relative sm:col-span-2 md:col-span-1">
+                       {{form.skill_score5}}
+                        <span
+                            class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] bg-karyar-100 text-karyar-900 px-1.5 py-0.5 rounded-md font-bold">{% translate 'امتیاز' %}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Button Section -->
+            <div class="pt-6 border-t border-slate-100">
+                <button type="submit"
+                    :disabled="loading"
+                    :class="{ 'opacity-75 cursor-not-allowed': loading }"
+                    class="w-full bg-karyar-500 hover:bg-karyar-900 text-white font-bold text-base py-4 rounded-2xl shadow-lg shadow-karyar-500/25 hover:shadow-xl hover:shadow-karyar-900/20 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2">
+                    {% if request.user.is_authenticated %}
+                    <!-- حالت عادی دکمه -->
+                    <span x-show="!loading" class="flex items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-lg"></i>
+                        <span>{% translate 'تأیید و انتشار آگهی شغلی' %}</span>
+                    </span>
+                    {% else %}
+                     <span x-show="!loading" class="flex items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-lg"></i>
+                        <a href="{% url 'work:register' %}"> {% translate 'لطفا ثبت نام کنید ' %} </a>
+                    </span>
+                    {% endif %}
+
+                    <!-- حالت لودینگ و انتظار -->
+                    <span x-show="loading" class="flex items-center gap-2" style="display: none;">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>{% translate 'لطفاً منتظر باشید...' %}</span>
+                    </span>
+                </button>
+            </div>
+
+        </form>
+    </main>
+    {% endblock %}
+{% block footer %}
+    <!-- AOS Animation Initialize Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                once: true,
+                duration: 800,
+                easing: 'ease-out-cubic'
+            });
+        });
+    </script>
+</body>
+
+</html>
+{% endblock %}
