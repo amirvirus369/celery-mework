@@ -8,7 +8,7 @@ urlpatterns = [
     path('resumeh',views.resumeh,name='no_res'),
 
 
-    path('',views.main),
+    path('',views.main,name="main"),
     path('job',views.job,name='job'),
     path('res',views.res,name='res')
 ]
